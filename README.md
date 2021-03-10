@@ -7,7 +7,7 @@ Update a LimeSurvey instance using packages from the official website.
 - Supports Stable, Unstable, and Development branches
 - Performs backups of the database and application files
 - Stops and starts the web server, with support for various init systems:
-  - generic / `service`
+  - generic / "service"
   - `systemd`
   - `init.d` / `OpenRC`
   - `rc.d`
