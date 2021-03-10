@@ -1,0 +1,15 @@
+{
+    "branch": "unstable",
+    "db_cnf_path": ".my.cnf",
+    "db_name": "limesurvey_db",
+    "db_port": 3306,
+    "db_server": "localhost",
+    "install_octal_permissions": "755",
+    "install_owner": "www-data:www-data",
+    "install_path": "/var/www/html/limesurvey",
+    "log_to_file": true,
+    "log_to_stdout": true,
+    "log_to_syslog": false,
+    "web_server_init_system": "systemd",
+    "web_server_service": "nginx"
+}
