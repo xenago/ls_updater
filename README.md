@@ -7,12 +7,12 @@ Update a LimeSurvey instance using packages from the official website.
 - Supports Stable, Unstable, and Development branches
 - Performs backups of the database and application files
 - Stops and starts the web server, with support for various init systems:
-  - generic / "service"
-  - systemd
-  - init.d / OpenRC
-  - rc.d
-  - Upstart / Finit
-  - Epoch
+  - generic / `service`
+  - `systemd`
+  - `init.d` / `OpenRC`
+  - `rc.d`
+  - `Upstart` / `Finit`
+  - `Epoch`
 
 ## Bird's-eye view of the script:
 1. First it loads and checks the configuration in `config.json`, activating the logger accordingly
@@ -33,12 +33,12 @@ Update a LimeSurvey instance using packages from the official website.
     7. Database in MariaDB or MySQL with a `.my.cnf` file prepared with credentials (see `config.json` details below)
     8. Configured `config.json` alongside the script
 2. **Running ls_updater the easy way:**
-    1. Prepare system to ensure the dependencies are met (for example, by installing the required Python packages with pip)
+    1. Prepare system to ensure the dependencies are met (for example, by installing the required Python 3 packages with `pip`)
     2. `git pull https://github.com/xenago/ls_updater`
     3. `cd ls_updater`
     4. `nano .my.cnf` (only required if you don't already have one elsewhere - if you do, add its path to `config.json`)
     5. `cp default-config.json config.json && nano config.json` (edit to include all necessary information, details below)
-    6. `sudo py ls_updater.py`
+    6. `sudo python3 ls_updater.py`
 3. **Configuration via `config.json`:** (all included in the sample `default-config.json`, which assumes `systemd` & `nginx`)
     - `"branch"`: select the update branch. Supported values:
       - `lts` (currently, version 3)
@@ -64,4 +64,4 @@ Update a LimeSurvey instance using packages from the official website.
       - `upstart`
       - `finit`
       - `epoch`
-    - `"web_server_service"`: systemd service name of the web server, typically "apache2" or "nginx"
+    - `"web_server_service"`: systemd service name of the web server, typically `apache2` or `nginx`
