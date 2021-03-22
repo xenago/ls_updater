@@ -75,4 +75,7 @@ Take a look at `default-config.json`, which assumes `systemd` & `nginx`.
 5. `nano .my.cnf` (only required if you don't already have one elsewhere - if you do, add its path to `config.json`)
 6. `cp default-config.json config.json && nano config.json` (edit to include all necessary information, details below)
 7. `sudo python3 ls_updater.py`
+8. In the browser, login as admin to verify that no database upgrade is required. The specific url: `<base url>/index.php?r=admin/databaseupdate/sa/db`
 
+### Sample output
+![image](https://user-images.githubusercontent.com/11216007/112002775-a0d78980-8af6-11eb-9828-57cab19b89dd.png)
