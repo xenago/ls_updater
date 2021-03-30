@@ -73,9 +73,12 @@ Take a look at `default-config.json`, which assumes `systemd` & `nginx`.
 3. `git pull https://github.com/xenago/ls_updater`
 4. `cd ls_updater`
 5. `nano .my.cnf` (only required if you don't already have one elsewhere - if you do, add its path to `config.json`)
-6. `cp default-config.json config.json && nano config.json` (edit to include all necessary information, details below)
-7. `sudo python3 ls_updater.py`
-8. In the browser, login as admin to verify that no database upgrade is required: `<base url>/index.php?r=admin/databaseupdate/sa/db`
+6. Copy default config and edit to include all necessary information (see above for `config.json` details)
+    - `cp default-config.json config.json`
+    - `nano config.json`
+8. `sudo python3 ls_updater.py`
+9. In the browser, login as admin to verify that no database upgrade is required. If one is needed, it should automatically prompt when logging into the web interface.
+    - It is also possible to check `<base url>/index.php?r=admin/databaseupdate/sa/db` - if an error appears when loading that URL, then no upgrade is required
 
 ### Sample output
 ![image](https://user-images.githubusercontent.com/11216007/112002775-a0d78980-8af6-11eb-9828-57cab19b89dd.png)
