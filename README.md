@@ -48,7 +48,7 @@ Take a look at `default-config.json`, which assumes `systemd` & `nginx`.
 - `"db_port"`: port of the database server
 - `"db_server"`: hostname or IP address of the database server
 - `"install_octal_permissions"`: 755-style permissions applied to the newly-installed application files
-- `"install_owner"`: `"username:group"` which should own the newly-installed application files
+- `"install_owner"`: Formatted like `"username:group"`, the owner of the newly-installed application files
 - `"install_path"`: path to the application files on the disk
 - `"log_to_file"`: print the output of the script to a file
 - `"log_to_stdout"`: print the output of the script to the console
