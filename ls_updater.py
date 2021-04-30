@@ -22,10 +22,8 @@ from bs4 import BeautifulSoup
 # Initial Setup #
 #################
 
-# Open the config as dict
 config = {}
 
-# base log setup
 log = logging.getLogger(__name__)
 log.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s {%(filename)s:%(lineno)d} [%(levelname)s]: %(message)s")
@@ -40,7 +38,6 @@ def __log_setup(stdout, syslog, file):
     :param stdout: Output to console
     :param syslog: Output to local syslog
     :param file: Output to a rotating file
-    :return: (None)
     """
     global log, formatter
     if stdout:
@@ -73,7 +70,6 @@ def validate_config(config_input):
     expected_options = ["branch", "db_cnf_path", "db_name", "db_port", "db_server", "install_octal_permissions",
                         "install_owner", "install_path", "log_to_file", "log_to_stdout", "log_to_syslog",
                         "web_server_init_system", "web_server_service"]
-    # throws KeyError if an option does not exist, so this can verify they're all present
     for option in expected_options:
         if config[option] is None or config[option] == "":
             raise RuntimeError("Config validation error: empty " + option)
@@ -103,7 +99,7 @@ def validate_config(config_input):
 
 def run():
     global config, log
-    # load the configuration from disk
+    # load the configuration
     try:
         with open(os.path.normpath(Path(__file__).parent.absolute()) + "/" + "config.json", "r") as file:
             config = json.load(file)
@@ -147,8 +143,11 @@ def run():
                 release_type = "lts"
             elif "latest-stable" in url:
                 release_type = "unstable"
-            else:  # "unstable-releases" in url
+            elif "unstable-releases" in url:
                 release_type = "dev"
+            else:
+                log.error("Unable to locate release within the page HTML. Now exiting. Full error: " + str(e))
+                exit(1)
             version = url.split("/").pop().split("limesurvey").pop().split("+")[0]
             build = url.split("/").pop().split("limesurvey").pop().split("+").pop().split(".zip")[0]
             release_code = version + "+" + build
@@ -158,7 +157,7 @@ def run():
             url.split("/").pop()
         log.info("Available versions: " + str(releases).replace("\n", "\t"))
     except Exception as e:
-        log.error("Unable to parse webpage for releases. Now exiting. Full error: " + str(e))
+        log.error("Unable to parse HTML of webpage for releases. Now exiting. Full error: " + str(e))
         exit(1)
 
     # Select version to install
@@ -170,8 +169,7 @@ def run():
             url = release["url"]
             break
     if new_version is None:
-        log.error(
-            "Unable to find compatible version. Check the script's logs and verify the branch set in config.json.")
+        log.error("Unable to find compatible version. Check the logs and verify the branch set in config.json.")
         exit(1)
     if new_version == current_version:
         log.info("No need to upgrade. Current version is the most recent for the '" + config["branch"] + "' branch.")
@@ -183,7 +181,6 @@ def run():
     try:
         if not os.path.exists("ls_downloads"):
             os.makedirs("ls_downloads")
-        # if file already exists, remove it
         if os.path.exists("ls_downloads/" + filename):
             log.info("Removing existing file: ls_downloads/" + filename)
             os.remove("ls_downloads/" + filename)
@@ -193,9 +190,8 @@ def run():
         exit(1)
     log.info("Downloaded release: " + filename_on_disk)
 
-    # Unzip release
+    log.info("Extracting release from zip: " + filename_on_disk)
     try:
-        log.info("Extracting release from zip: " + filename_on_disk)
         if os.path.exists("ls_downloads/" + new_version):
             log.info("Removing existing folder: ls_downloads/" + new_version)
             shutil.rmtree("ls_downloads/" + new_version)
@@ -257,7 +253,6 @@ def run():
             log.error("Unable to back up database. Now exiting. Full error: " + str(e))
         exit(1)
 
-    # Perform backup of entire app installation to a zip
     log.info("Backing up application files from " + config["install_path"] + " to " + backup_path)
     if os.path.exists(backup_path + version_code + "_backup.zip"):
         log.error("Backup already exists: " + backup_path + version_code + "_backup.zip so now exiting.")
@@ -269,7 +264,6 @@ def run():
         log.error("Unable to zip and back up the current installation. Now exiting. Full error: " + str(e))
         exit(1)
 
-    # Copy necessary files on their own to restore
     log.info("Copying needed files for restore from " + config["install_path"] + " to "
              + backup_path)
     try:
@@ -290,7 +284,6 @@ def run():
         log.error("Unable to copy needed files. Now exiting. Full error: " + str(e))
         exit(1)
 
-    # Delete the existing app installation
     log.info("Deleting existing application files from " + config["install_path"])
     try:
         shutil.rmtree(config["install_path"], ignore_errors=False, onerror=None)
@@ -298,7 +291,6 @@ def run():
         log.error("Unable to delete existing application files. Now exiting. Full error: " + str(e))
         exit(1)
 
-    # Move over the unzipped new application files
     log.info("Moving new application files to " + config["install_path"])
     try:
         # delete upload directory since it"s getting replaced
@@ -310,7 +302,6 @@ def run():
         log.error("Unable to move new application files. Now exiting. Full error: " + str(e))
         exit(1)
 
-    # Restore necessary files
     log.info("Restoring needed files from " + backup_path + " to " + config["install_path"])
     try:
         shutil.move(backup_path + "upload",
