@@ -50,7 +50,7 @@ Take a look at `default-config.json`, which assumes `systemd` & `nginx`.
 - `"install_octal_permissions"`: 755-style permissions applied to the newly-installed application files
 - `"install_owner"`: Formatted like `"username:group"`, the owner of the newly-installed application files
 - `"install_path"`: path to the application files on the disk
-- `"log_to_file"`: print the output of the script to a file
+- `"log_to_file"`: print the output of the script to logs/ls_updater.log
 - `"log_to_stdout"`: print the output of the script to the console
 - `"log_to_syslog"`: print the output of the script to local syslog
 - `"web_server_init_system"`: select the init system used to restart the web server service. Supported values:
