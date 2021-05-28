@@ -276,8 +276,8 @@ def run():
                         dirs_exist_ok=True)
         shutil.copy2(config["install_path"] + "/application/config/config.php",
                      backup_path + "config.php")
-        if current_version.startswith("4"):
-            # the security file is only present from 4.x onwards
+        if current_version.startswith("4") or current_version.startswith("5"):
+            # the security file is only present in 4.x and 5.x
             shutil.copy2(config["install_path"] + "/application/config/security.php",
                          backup_path + "security.php")
     except Exception as e:
@@ -310,8 +310,8 @@ def run():
         shutil.move(backup_path + "config.php",
                     config["install_path"] + "/application/config/",
                     copy_function=shutil.copy2)
-        if current_version.startswith("4"):
-            # the security file is only present from 4.x onwards
+        if current_version.startswith("4") or current_version.startswith("5"):
+            # the security file is only present in 4.x and 5.x
             shutil.move(backup_path + "security.php",
                         config["install_path"] + "/application/config/",
                         copy_function=shutil.copy2)
