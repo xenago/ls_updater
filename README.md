@@ -14,7 +14,7 @@ Update a LimeSurvey instance using packages from the official website.
   - `Upstart` / `Finit`
   - `Epoch`
 
-### Bird's-eye view
+  ### What the script is doing
 1. Load and verify `config.json`, configure the logger
 2. Parse the release page, download the selected version
 3. Stop the web server using the init system
