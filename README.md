@@ -3,35 +3,35 @@ Update a LimeSurvey instance using packages from the official website.
 
 ### Functionality
 - Downloads application builds directly from the [LimeSurvey website](https://community.limesurvey.org/downloads/)
-- Follows the [upgrade instructions](https://manual.limesurvey.org/Upgrading_from_a_previous_version#Upgrade_instructions_.28from_2.x_or_newer_to_any_later_version.29) in the LimeSurvey Manual, including differences between version 3 and 4
+- Follows the [upgrade instructions](https://manual.limesurvey.org/Upgrading_from_a_previous_version#Upgrade_instructions_.28from_2.x_or_newer_to_any_later_version.29) in the LimeSurvey Manual, including differences between versions 3-5
 - Supports Stable, Unstable, and Development branches
 - Performs backups of the database and application files
 - Stops and starts the web server, with support for various init systems:
-  - generic / "service"
   - `systemd`
   - `init.d` / `OpenRC`
   - `rc.d`
   - `Upstart` / `Finit`
   - `Epoch`
+  - generic (`service`)
 
 ### What the script is doing
 1. Load and verify `config.json`, configure the logger
 2. Parse the release page, download the selected version
 3. Stop the web server using the init system
 4. Dump the database and zip up the existing install as a backup
-5. Instal the new application files, restore user data files, apply permissions
-6. Start the service for the web server back up
+5. Install the new application files, restore user data files, apply permissions
+6. Start the service for the web server back up using the init system
 
 ## Using ls_updater
 
 ### System requirements
 
   - LimeSurvey 3+ running on GNU/Linux (tested on Ubuntu 20.04)
-  - Web server software managed with a one of the supported init systems, such as systemd or init.d (see below)
+  - Web server software managed with one of the supported init systems, such as `systemd` or `init.d`
   - Standard LimeSurvey installation without custom modifications to the core files
   - Python 3.6+ with `bs4` (BeautifulSoup), `requests`, and `wget` packages available
   - `mysqldump` available in the `PATH`, typically installed with the `mysql-client` or `mariadb-client` packages
-  - Root or sudo access to execute (note that the above Python packages and `mysqldump` need to be available)
+  - Root or sudo access to execute (note: the above Python packages and `mysqldump` need to be available as root)
   - Database in MariaDB or MySQL with a `.my.cnf` file prepared with credentials (see `config.json` details below)
   - Configured `config.json` alongside the script
 
@@ -77,7 +77,7 @@ Take a look at `default-config.json`, which assumes `systemd` & `nginx`.
     - `cp default-config.json config.json`
     - `nano config.json`
 8. `sudo python3 ls_updater.py`
-9. In the browser, login as admin to verify that no database upgrade is required. If one is needed, it should automatically prompt when logging into the web interface.
+9. In the browser, login as admin to verify that no database upgrade is required. If one is needed, it may prompt one when logging into the web interface.
     - It is also possible to check `<base url>/index.php?r=admin/databaseupdate/sa/db` - if an error appears when loading that URL, then no upgrade is required
 
 ### Sample output
