@@ -63,7 +63,7 @@ Take a look at `default-config.json`, which assumes `systemd` & `nginx`.
   - `"upstart"`
   - `"finit"`
   - `"epoch"`
-- `"web_server_service"`: init/service name of the web server. Typically set to `apache2` or `nginx`.
+- `"web_server_service"`: init/service name of the web server. Typically set to `"apache2"` or `"nginx"`.
 
 ### Running ls_updater
 
