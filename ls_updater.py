@@ -321,7 +321,7 @@ def run():
 
     log.info("Setting ownership of install path: " + config["install_path"] + " to owner: " + config["install_owner"])
     try:
-        subprocess.run(["chown", "-R", "www-data:www-data", config["install_path"]], capture_output=True,
+        subprocess.run(["chown", "-R", config["install_owner"], config["install_path"]], capture_output=True,
                        check=True)
     except subprocess.CalledProcessError as e:
         if e.output is not None and e.output != b"":
