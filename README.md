@@ -69,7 +69,7 @@ Take a look at `default-config.json`, which assumes `systemd` & `nginx`.
 
 1. Prepare system to ensure the dependencies are met. For example, on Ubuntu 20.04:
     - `sudo apt install python3-pip mariadb-client`
-    - `sudo python3 -m pip install bs4 requests wget`
+    - `sudo python3 -m pip install -r requirements.txt`
 3. `git pull https://github.com/xenago/ls_updater`
 4. `cd ls_updater`
 5. `nano .my.cnf` (only required if you don't already have one elsewhere - if you do, add its path to `config.json`)
