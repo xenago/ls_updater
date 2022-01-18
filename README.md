@@ -28,7 +28,7 @@ Update a LimeSurvey instance using packages from the official website.
 
   - LimeSurvey 3+ running on GNU/Linux (tested on Ubuntu 20.04)
   - Web server software managed with one of the supported init systems, such as `systemd` or `init.d`
-  - Standard LimeSurvey installation without custom modifications to the core files
+  - Standard single-node LimeSurvey installation without custom modifications to the core files
   - Python 3.6+ with `bs4` (BeautifulSoup), `requests`, and `wget` packages available
   - `mysqldump` available in the `PATH`, typically installed with the `mysql-client` or `mariadb-client` packages
   - Root or sudo access to execute (note: the above Python packages and `mysqldump` need to be available as root)
