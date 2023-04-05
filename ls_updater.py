@@ -111,10 +111,14 @@ def run():
         exit(1)
     # check currently installed version from limesurvey/application/config/version.php
     version_code = ""
+    major_version = 0
     try:
         with open(config["install_path"] + "/application/config/version.php", "r") as f:
             current_version = f.read().split("$config['versionnumber'] = '")[1].split("';\n$config")[0]
             f.close()
+            major_version = int(current_version[0])
+            if major_version <= 0:
+                log.error("Error determining major version. Now exiting.")
         with open(config["install_path"] + "/application/config/version.php", "r") as f:
             current_build = f.read().split("$config['buildnumber'] = ")[1].split(";\n$config")[0].strip("'")
             f.close()
@@ -276,8 +280,8 @@ def run():
                         dirs_exist_ok=True)
         shutil.copy2(config["install_path"] + "/application/config/config.php",
                      backup_path + "config.php")
-        if current_version.startswith("4") or current_version.startswith("5"):
-            # the security file is only present in 4.x and 5.x
+        if major_version > 3:
+            # the security file is only present in 4.x+
             shutil.copy2(config["install_path"] + "/application/config/security.php",
                          backup_path + "security.php")
     except Exception as e:
@@ -310,8 +314,8 @@ def run():
         shutil.move(backup_path + "config.php",
                     config["install_path"] + "/application/config/",
                     copy_function=shutil.copy2)
-        if current_version.startswith("4") or current_version.startswith("5"):
-            # the security file is only present in 4.x and 5.x
+        if major_version > 3:
+            # the security file is only present in 4.x+
             shutil.move(backup_path + "security.php",
                         config["install_path"] + "/application/config/",
                         copy_function=shutil.copy2)
