@@ -4,6 +4,7 @@ import datetime
 import json
 import logging.handlers
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -116,7 +117,8 @@ def run():
         with open(config["install_path"] + "/application/config/version.php", "r") as f:
             current_version = f.read().split("$config['versionnumber'] = '")[1].split("';\n$config")[0]
             f.close()
-            major_version = int(current_version[0])
+            # Get the major version number by extracting the first number which is followed by a period
+            major_version = re.search(r"(\d+)\.", current_version).group(1)
             if major_version <= 0:
                 log.error("Error determining major version. Now exiting.")
         with open(config["install_path"] + "/application/config/version.php", "r") as f:
