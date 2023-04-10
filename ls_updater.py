@@ -118,7 +118,7 @@ def run():
             current_version = f.read().split("$config['versionnumber'] = '")[1].split("';\n$config")[0]
             f.close()
             # Get the major version number by extracting the first number which is followed by a period
-            major_version = re.search(r"(\d+)\.", current_version).group(1)
+            major_version = int(re.search(r"(\d+)\.", current_version).group(1))
             if major_version <= 0:
                 log.error("Error determining major version. Now exiting.")
         with open(config["install_path"] + "/application/config/version.php", "r") as f:
