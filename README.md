@@ -81,4 +81,5 @@ Take a look at `default-config.json`, which assumes `systemd` & `nginx`.
     - It is also possible to check `<base url>/index.php?r=admin/databaseupdate/sa/db` - if an error appears when loading that URL, then no upgrade is required
 
 ### Sample output
-![image](https://user-images.githubusercontent.com/11216007/112002775-a0d78980-8af6-11eb-9828-57cab19b89dd.png)
+![image](https://user-images.githubusercontent.com/11216007/230814968-84b0ee68-b5a0-4f18-ab76-80abe2f07bd2.png)
+
