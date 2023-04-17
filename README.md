@@ -3,8 +3,9 @@ Update a LimeSurvey instance using packages from the official website.
 
 ### Functionality
 - Downloads application builds directly from the [LimeSurvey website](https://community.limesurvey.org/downloads/)
-- Follows the [upgrade instructions](https://manual.limesurvey.org/Upgrading_from_a_previous_version#Upgrade_instructions_.28from_2.x_or_newer_to_any_later_version.29) in the LimeSurvey Manual, including differences between versions 3-5
-- Supports all branches: Stable (LTS), Unstable (latest), and Development (not always available) 
+- Follows the [upgrade instructions](https://manual.limesurvey.org/Upgrading_from_a_previous_version#Upgrade_instructions_.28from_2.x_or_newer_to_any_later_version.29) in the LimeSurvey Manual, including differences between versions 3-6
+- Supports all branches: Unstable (master), Development (previous master), and Stable (LTS)
+  - I am aware this is a bit weird, but it allows for the naming convention to remain unchanged from their previous one 
 - Performs backups of the database and application files
 - Stops and starts the web server, with support for various init systems:
   - `systemd`
@@ -40,9 +41,9 @@ Update a LimeSurvey instance using packages from the official website.
 Take a look at `default-config.json`, which assumes `systemd` & `nginx`.
 
 - `"branch"`: select the update branch. Supported values:
-  - `"lts"` (version 3)
-  - `"unstable"` (version 5)
-  - `"dev"` (no builds being published since 4.4.0-RC4)
+  - `"unstable"` (version 6+, i.e. `latest-master`)
+  - `"dev"` (version 5+, i.e. `latest-{d}`)
+  - `"lts"` (version 3, i.e. `latest-3.x-LTS`)
 - `"db_cnf_path"`: path to a `.my.cnf` file with database credentials able to use `mysqldump`
 - `"db_name"`: name of the LimeSurvey database in MySQL/MariaDB
 - `"db_port"`: port of the database server
