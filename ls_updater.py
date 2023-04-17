@@ -145,11 +145,11 @@ def run():
         rows = soup.find_all("a", {"class": ["release-button"]})
         for num, row in enumerate(rows):
             url = row.attrs["href"]
-            if "lts" in url:
+            if "-LTS/" in url:
                 release_type = "lts"
-            elif "latest-stable" in url:
+            elif "/latest-master" in url:
                 release_type = "unstable"
-            elif "unstable-releases" in url:
+            elif "/latest-" in url:
                 release_type = "dev"
             else:
                 log.error("Unable to locate release within the page HTML. Now exiting. Full error: " + str(e))
