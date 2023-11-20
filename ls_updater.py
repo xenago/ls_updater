@@ -206,6 +206,34 @@ def run():
         log.error("Unable to unzip release. Now exiting. Full error: " + str(e))
         exit(1)
 
+    log.info("Checking extracted file format...")
+    try:
+        expected_folder_path = os.path.join("ls_downloads", new_version, "limesurvey")
+        if os.path.exists(expected_folder_path):
+            log.info("Found folder as expected at: " + expected_folder_path)
+        else:
+            unzipped_contents = os.listdir(os.path.join("ls_downloads", new_version))
+            if len(unzipped_contents) > 1:
+                log.error("Problem with extracted zip structure - more than 1 item in directory: " + os.path.join("ls_downloads", new_version) + ", list: " + str(unzipped_contents))
+                exit(1)
+            elif len(unzipped_contents) < 1:
+                log.error("Problem with extracted zip structure - no contents in directory: " + os.path.join("ls_downloads", new_version))
+                exit(1)
+            else:
+                # 1 folder, as expected
+                for item in unzipped_contents:
+                    folder_path = os.path.join("ls_downloads", new_version, item)
+                    if os.path.isdir(folder_path):
+                        log.info("Format not exact; renaming inner folder from " + folder_path + " to " + expected_folder_path)
+                        os.rename(folder_path, expected_folder_path)
+                        log.info("Renamed inner folder to " + expected_folder_path)
+                    else:
+                        log.error("Problem with extracted zip structure - inner item not a folder, now exiting: " + folder_path)
+                        exit(1)
+    except Exception as e:
+        log.error("Problem with extracted zip structure. Now exiting. Full error: " + str(e))
+        exit(1)
+
     log.info("Stopping web server service: " + config["web_server_service"]
              + " with init system: " + config["web_server_init_system"])
     try:
